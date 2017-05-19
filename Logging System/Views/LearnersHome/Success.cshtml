@@ -1,0 +1,74 @@
+﻿
+@{
+    //ViewBag.Title = "Success";
+    Layout = "~/Views/Shared/MasterPage.cshtml";
+}
+<br />
+<br />
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Learners Home</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/Css/Learner.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Javascript/Upload.js"></script>
+
+
+</head>
+<body>
+    <div class="Wrath">
+
+        @*<div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="text-align:center;">Learners proof of absence uploads</h3>
+            </div>
+            <div class="panel-body" style="text-align:left;">*@
+
+
+                <div class="content text-center" style="color:#2b398b;">
+
+                    @if (Session["Names"] != null || Session["Surname"] != null)
+                    {
+                        <text>
+                            Learner: @Session["Names"].ToString()  @Session["Surname"].ToString()
+                        </text>
+                    }
+
+
+                    <h2>Successfully Uploaded File</h2>
+                    <div class="alert" style="color:#0c7019">
+
+                        <h3>File Uploaded Title : @ViewBag.filename</h3>
+
+                    </div>
+                </div>
+            </div>
+        @*</div>*@
+
+
+
+        <div class="form-horizontal" style="text-align:center;">
+
+            <input type="button" name="btnHome" class="btn btn-primary" value="Back" onclick="location.href='@Url.Action("Learner_Home", "LearnersHome")'" />
+            <input type="button" name="btnHome" class="btn btn-primary" value="Home" onclick="location.href='@Url.Action("Index", "Home")'" />
+            <input type="button" name="submit" class="btn btn-warning" value="Logout" onclick="location.href='@Url.Action("Logout", "Learner")'" /><br /><br />
+
+
+            <h1>Thank You!</h1>
+
+            <img src="~/Images/Dynamic.png" />
+        </div>
+
+   
+
+
+</body>
+</html>

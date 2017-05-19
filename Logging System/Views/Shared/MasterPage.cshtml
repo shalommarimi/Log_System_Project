@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" type="text/css" href="~/Css/Master.css" />
+    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/Images/favicon.ico" type="image/x-icon" />
+    <link href="~/Content/themes/MyThemes/start/theme.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.jqGrid.min.js"></script>
+    <script src="~/Scripts/i18n/grid.locale-en.js"></script>
+    <script src="~/Content/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <link href="~/Content/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
+
+    <script>
+        $(function () {
+            $("body").on('click keypress', function () {
+                ResetThisSession();
+            });
+        });
+
+        var timeInSecondsAfterSessionOut = 180; // change this to change session time out (in seconds).
+        var secondTick = 0;
+
+        function ResetThisSession() {
+            secondTick = 0;
+        }
+
+        function StartThisSessionTimer() {
+            secondTick++;
+            var timeLeft = ((timeInSecondsAfterSessionOut - secondTick) / 60).toFixed(0); // in minutes
+            timeLeft = timeInSecondsAfterSessionOut - secondTick; // override, we have 30 secs only
+
+            $("#spanTimeLeft").html(timeLeft);
+
+            if (secondTick > timeInSecondsAfterSessionOut) {
+                clearTimeout(tick);
+                deleteAllCookies()
+               // window.location = "/Home/SessionExpired";
+                location.href='@Url.Action("SessionExpired", "Session")'
+                return;
+            }
+            tick = setTimeout("StartThisSessionTimer()", 1000);
+        }
+
+        StartThisSessionTimer();
+    </script>
+    <script>
+        function deleteAllCookies() {
+            var cookies = document.cookie.split(";");
+
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            }
+        }
+    </script>
+
+
+
+</head>
+<body>
+    <div class="navbar-text pull-right">
+        <text style="color:#2b398b; font-weight:bolder;">Session Span:</text><span id="spanTimeLeft" style="color:#fdbb30; font-weight:bolder;"></span>
+    </div>
+
+    <div class="Wrapper">
+
+        <header class="text-center">
+
+         @*   <img src="~/Images/Sub.png" alt="DVT" />*@
+
+           
+
+        </header>
+
+
+    </div>
+
+
+    <div>
+        @RenderBody()
+    </div>
+ 
+    @RenderSection("scripts", required: false)
+</body>
+</html>

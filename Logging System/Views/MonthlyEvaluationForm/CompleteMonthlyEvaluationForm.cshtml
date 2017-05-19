@@ -1,0 +1,355 @@
+﻿@model Logging_System.Models.Evaluation
+
+@{
+    Layout = "~/Views/Shared/MasterPage.cshtml";
+}
+
+@{
+
+    var Traits = new SelectList(new string[] { "Above standard", "Meets standard", "Below standard", "N/A" });
+    var Company = new SelectList(new string[] { "Dynamic DNA", "Dynamic Visual Technologies", "Blue Pencil", "CloudSmiths", "Indigo Cube" });
+    var Mentors = new SelectList(new string[] { "Prudence Mabitsela & Mthunzi Huna", "Prudence Mabitsela", "Mojalifa Tsao", "Mthunzi Huna" });
+    var Preview = new SelectList(new string[] { "Yes", "No" });
+    var Font = new SelectList(new string[] { "Arial", "Informal Roman", "Bradley Hand ITC", "Blackadder ITC", "Brush Script MT Italic", "Edwardian Script ITC", "Mistral", "Place Script MT", "Chiller", "Curlz MT", "French Script MT", "Rage Italic", });
+
+    //Month of Evaluation-Automatic
+    DateTime Now = DateTime.Now;
+    string monthly;
+    string year;
+    monthly = Now.ToString("MMMM");
+    year = Now.Year.ToString();
+    string moe = monthly + " " + year;
+
+
+
+
+
+    DateTime dt = DateTime.Now;
+    string date = dt.ToLongDateString();
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weekly Logbook</title>
+    <link href="~/Css/Learner.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Javascript/Upload.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+
+</head>
+<body>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#DateLearnerSigned").datepicker();
+        });
+    </script>
+
+    @using (Html.BeginForm())
+    {
+
+
+        <div class="container">
+            <br /><br />
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="text-align:left;">Monthly Evaluation Form-Learner.</h3>
+                </div>
+                <div class="panel-body" style="text-align:left;">
+
+
+                    <div class="logged">
+                        @if (Session["Names"] != null || Session["Surname"] != null)
+                        {
+                            <text>
+                                Learner: @Session["Names"].ToString()  @Session["Surname"].ToString()
+                            </text>
+
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="form-horizontal">
+
+
+
+            @Html.AntiForgeryToken()
+            <div class="col-sm-3">
+                @Html.ValidationSummary(true)
+            </div>
+
+            <br /><br /><br />
+            <br /><br />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MentorName, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.MentorName, Mentors, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MentorName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.CompanyName, Company, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CompanyName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LearnerName, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.LearnerName, new { @class = "form-control", @Value = @Session["Names"].ToString() + " " + @Session["Surname"].ToString() })
+                    @Html.ValidationMessageFor(model => model.LearnerName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Months, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.Months, new { @class = "form-control", @Value = moe })
+                    @Html.ValidationMessageFor(model => model.Months)
+                </div>
+            </div>
+            <br /><br /><br />
+
+            <div class="headings">
+                <h4>Extended Application Traits 1:</h4>
+            </div>
+            <br /><br /><br />
+            @*Starts Here*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.Trait01, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(model => model.Trait01, new { @class = "form-control", @Value = "Mentor demonstrates willingness to assist learners in capturing workplace experience onto the logbook." })
+                    @Html.ValidationMessageFor(model => model.Trait01)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Rating1, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.Rating1, Traits, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Rating1)
+                </div>
+            </div>
+
+
+            <br /><br /><br />
+
+            <div class="headings">
+                <h4>Extended Application Traits 2:</h4>
+            </div>
+            <br /><br /><br />
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Trait02, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(model => model.Trait02, new { @class = "form-control", @Value = "Mentor demonstrates willingness to assist learners with the learning process of obtaining experience." })
+                    @Html.ValidationMessageFor(model => model.Trait02)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Rating2, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.Rating2, Traits, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Rating2)
+                </div>
+            </div>
+
+
+            <br /><br /><br />
+
+            <div class="headings">
+                <h4>Extended Application Traits 3:</h4>
+            </div>
+            <br /><br /><br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Trait03, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(model => model.Trait03, new { @class = "form-control", @Value = "Mentor demonstrates effective communication skills with the learner/s." })
+                    @Html.ValidationMessageFor(model => model.Trait03)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Rating3, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.Rating3, Traits, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Rating3)
+                </div>
+            </div>
+
+
+            <br /><br /><br />
+
+            <div class="headings">
+                <h4>Extended Application Traits 4:</h4>
+            </div>
+            <br /><br /><br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Trait04, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(model => model.Trait04, new { @class = "form-control", @Value = "Mentor is able to accommodate learners." })
+                    @Html.ValidationMessageFor(model => model.Trait04)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Rating4, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.Rating4, Traits, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Rating4)
+                </div>
+            </div>
+
+
+            <br /><br /><br />
+
+            <div class="headings">
+                <h4>Extended Application Traits 5:</h4>
+            </div>
+            <br /><br /><br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Trait05, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(model => model.Trait05, new { @class = "form-control", @Value = "Learner is capable of applying problem solving techniques." })
+                    @Html.ValidationMessageFor(model => model.Trait05)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Rating5, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.Rating5, Traits, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Rating5)
+                </div>
+            </div>
+
+            <br /><br /><br />
+
+            <div class="headings">
+                <h4>FINAL JUDGEMENT:</h4>
+            </div>
+            <br /><br /><br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.final, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.final, Traits, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.final)
+                </div>
+            </div>
+
+            <br /><br /><br />
+
+            <div class="headings">
+                <h4>Comments:</h4>
+            </div>
+            <br /><br /><br />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-2">
+                    @Html.TextAreaFor(model => model.Comments, new { @class = "form-control", placeholder = "Comments Optional" })
+                    @Html.ValidationMessageFor(model => model.Comments)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.fontStyle, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.fontStyle, Font, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.fontStyle)
+                </div>
+                <button class="btn sign_in" data-toggle="collapse" data-target="#demos" id="btnSignIn" type="button" style="background-color:#fdbb30">
+
+                    <span class="glyphicon glyphicon-log-in"></span>
+                    Previw Fontstyles
+                </button>
+
+                <div id="demos" class="collapse col-xs-2">
+                    <br /><ul>
+
+                        <li><a href="https://www.myfonts.com/fonts/microsoft/arial/arial/" target="_blank"> <text style="font-family:Arial; font-size:larger;">Arial</text></a></li>
+                        <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=988" target="_blank"><text style="font-family:'Informal Roman';font-size:larger;">Informal Roman</text> </a></li>
+                        <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=927" target="_blank"> <text style="font-family:'Bradley Hand ITC'; font-size:larger;">Bradley Hand ITC</text></a></li>
+                        <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=989" target="_blank"> <text style="font-family:'Blackadder ITC'; font-size:larger;">Blackadder ITC</text></a></li>
+                        <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=930" target="_blank"><text style="font-family:'Brush Script MT'; font-size:larger;"> Brush Script MT Italic</text></a></li>
+                        <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=990" target="_blank"><text style="font-family:'Edwardian Script ITC'; font-size:larger;"> Edwardian Script ITC</text></a></li>
+                        <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=1007" target="_blank"><text style="font-family:Mistral; font-size:larger;"> Mistral</text></a></li>
+                        <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=1029" target="_blank"> <text style="font-family:'Palace Script MT'; font-size:larger;">Palace Script MT</text></a></li>
+                        <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=936" target="_blank"><text style="font-family:Chiller; font-size:larger;"> Chiller</text></a></li>
+                        <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=940 " target="_blank"> <text style="font-family:'Curlz MT'; font-size:larger;">Curlz MT</text></a></li>
+                        <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=966" target="_blank"> <text style="font-family:'French Script MT'; font-size:larger;">French Script MT</text></a></li>
+                        <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=1023" target="_blank"><text style="font-family:Rage; font-size:larger;"> Rage Italic</text></a>
+                    </li>
+                    </ul>
+
+
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LearnerSignature, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.LearnerSignature, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.LearnerSignature)
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DateLearnerSigned, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.DateLearnerSigned, new { @class = "form-control",@Value = date, @readonly =  true})
+                    @Html.ValidationMessageFor(model => model.DateLearnerSigned)
+                </div>
+            </div>
+        
+            <div class="form-group">
+                @Html.LabelFor(model => model.Preview, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.Preview, Preview, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Preview)
+                </div>
+            </div>
+
+           
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                    <input type="button" name="btnHome" class="btn btn-primary" value="Back" onclick="location.href='@Url.Action("Learner_Home", "LearnersHome")'" />
+                    <input type="button" name="btnHome" class="btn btn-primary" value="Home" onclick="location.href='@Url.Action("Index", "Home")'" />
+                    <input type="button" name="submit" class="btn btn-warning" style="margin:3px;" value="Logout" onclick="location.href='@Url.Action("Logout", "LearnersHome")'" />
+                </div>
+            </div>
+        </div>
+
+    }
+    @{
+        if (ViewData["result"] != "" && ViewData["result"] != null)
+        {
+            ViewData["result"] = null;
+            <script type="text/javascript" language="javascript">
+                alert("Successfully Submitted Your Monthly Evaluation Form");
+            </script>
+        }
+    }
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+﻿
+@{
+    Layout = "~/Views/Shared/MasterPage.cshtml";
+}
+
+
+<title>Registered Mentors</title>
+<link href="~/Content/themes/MyThemes/start/theme.css" rel="stylesheet" />
+
+<br />
+<br /><br />
+<br /><br />
+
+<div>
+    <table id="grid"></table>
+    <div id="pager"></div>
+
+</div>
+<script>
+        $(function () {
+
+            $("#grid").jqGrid({
+                url: "/RegisteredMentors/SelectMentors",
+                datatype: 'json',
+                mtype: 'Get',
+                colNames: ["MentorID", "First  Name", "Middle  Name", "Surname","Gender", "DOB", "RSAID", "Role", "Mobile","Email", "Username", "Password", "IsActive"],
+                colModel: [{ name: "MentorID", key: true, index: 'MentorID', hidden: true, editable: true },
+                     { name: "FirstName", index: 'FirstName', editable: true, sortable: true },
+                    { name: "MiddleName", index: 'MiddleName', editable: true, sortable: true },
+                    { name: "Surname", index: 'Surname', editable: true, sortable: true },
+                    { name: "Gender", index: 'Gender', align: 'center', editable: true, sortable: true },
+                    { name: "DOB", index: 'DOB', formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }, editable: true },
+                    { name: "RSAID", index: 'RSAID', align: 'right', editable: true },
+                    { name: "Role", index: 'Role', align: 'right', editable: true },
+                    { name: "Mobile", index: 'Mobile', align: 'right', editable: true },
+                    { name: "Email", index: 'Email', align: 'right', editable: true },
+                    { name: "Username", index: 'Username', align: 'right', editable: true },
+                    { name: "Password", index: 'Password', align: 'right', editable: true },
+                    { name: "IsActive", index: 'IsActive', align: 'right', editable: true },
+
+                ],
+
+
+                height: 'auto',
+                autowidth: 'true',
+                rowNum: 20,
+                loadonce: true,
+                rowList: [10, 20, 30],
+                pager: 'pager',
+                sortname: 'FirstName',
+                viewrecords: true,
+                sortorder: 'asc',
+                caption: 'Registered Mentors', align: 'center',
+                emptyrecords: 'No Records To Display',
+                jsonreader: {
+                    repeatitems: false,
+                    Id: "0"
+                },
+                multiselect: false,
+
+            }).navGrid('#pager', { edit: true, add: true, del: true, search: true, refresh: true, },
+
+            {
+                //EDIT OPTIONS
+                width: 600,
+                url: '/RegisteredMentors/UpdateMentor',
+                closeAfterEdit: true,
+                onInitializeForm: function () {
+                    $('#DOB').datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        nextText: "",
+                        prevText: ""
+                    })
+                },
+                afterComplete: function (response) {
+                    $('#grid').setGridParam({ datatype: 'json', page: 1 }).trigger('reloadGrid');
+                    alert(response.responseText)
+                },
+
+            },
+        {
+            //ADD OPTIONS
+            width: 600,
+            url: '/RegisteredMentors/InsertMentor',
+            closeAfterAdd: true,
+            onInitializeForm: function () {
+                $('#DOB').datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    nextText: "",
+                    prevText: ""
+                })
+            },
+            afterComplete: function (response) {
+                $('#grid').setGridParam({ datatype: 'json', page: 1 }).trigger('reloadGrid');
+                alert(response.responseText)
+            },
+
+        },
+        {
+            //DELETE OPTIONS
+            width: 600,
+            url: '/RegisteredMentors/DeleteMentor',
+            closeAfterDelete: true,
+            msg: "Are you sure you want to permanently delete this record?",
+            afterComplete: function (response) {
+                $('#grid').setGridParam({ datatype: 'json', page: 1 }).trigger('reloadGrid');
+                alert(response.responseText)
+            },
+
+        },
+        {
+            //SEARCH OPTIONS
+            width: 600,
+            multipleSearch: true,
+
+        }
+
+        );
+        });
+</script>
+<div>
+
+    <input type="button" name="submit" style="height:37px; margin:5px; width:85px; background-color:#0078ae; color:#ffffff;" class="btn btn-primary" value="Close" onclick="location.href='@Url.Action("Home","Administrator")'" />
+</div>
+
+
+

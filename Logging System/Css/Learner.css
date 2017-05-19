@@ -1,0 +1,86 @@
+﻿body {
+}
+.Wrapper {
+    margin: 0 auto;
+   
+}
+.validation-summary-errors{
+    color:red;
+}
+.field-validation-error{
+     color:red;
+}
+
+.heading{
+
+    color:#fdbb30;
+}
+.headings h4{
+
+    color:#fdbb30;
+    font-weight:bold;
+    padding-left:100px;
+}
+.container {
+    margin: 0 auto;
+    position:center;
+    padding-top : 50px;
+
+   
+}
+.container .formlog{
+    padding: 10px 10px;
+     top:31%;
+    left:38%;
+    position:absolute;
+}
+
+    .container .form-control {
+        /*width: 200px;*/
+    }
+
+    .container h2 {
+        font-size: 17px;
+        color:#fdbb30;
+    }
+    ::-ms-clear {
+  display: none;
+}
+
+.form-control-clear {
+  z-index: 10;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.logged {
+    color:#2b398b;
+    font-weight:bold;
+
+}
+.form-group h2 {
+    font-weight:bold;
+}
+h2 {
+     color:#2b398b;
+    font-weight:bold;
+}
+/* enable absolute positioning */
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+form-group btns {
+    margin:3px;
+}
+btn btn-primary{
+    margin:5px;
+}
+
+

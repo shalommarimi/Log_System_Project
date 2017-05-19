@@ -1,0 +1,35 @@
+﻿body {
+    font-size:large;
+    margin: 0 auto;
+}
+
+
+
+
+.Wrapper h4 h3 {
+
+    color:#f39c12;
+}
+.Wrapper h3 {
+
+    color:#f39c12;
+}
+.buttons {
+    margin: 0px;
+  
+    margin-top: 19px;
+}
+table {
+    text-align:center;
+    margin: auto;
+    margin-top:10px;
+    border-color:#0092d7;
+}
+
+ .Wrapper h4{
+     text-align:center;
+    color:#f39c12;
+ }
+ .buttons{
+     text-align:center;
+ }

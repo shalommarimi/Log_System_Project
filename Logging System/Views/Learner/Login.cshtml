@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Learner";
+    Layout = "~/Views/Shared/MasterPage.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Learner Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/Css/Learner.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script>
+        $('.has-clear input[type="text"]').on('input propertychange', function () {
+            var $this = $(this);
+            var visible = Boolean($this.val());
+            $this.siblings('.form-control-clear').toggleClass('hidden', !visible);
+        }).trigger('propertychange');
+
+        $('.form-control-clear').click(function () {
+            $(this).siblings('input[type="text"]').val('')
+              .trigger('propertychange').focus();
+        });
+    </script>
+</head>
+<body>
+    <br /><br />
+    <div class="container">
+        <div class="formlog">
+
+            <h2 style="font-weight:bold">Learner Login Portal</h2>
+
+            <form class="form-horizontal" method="post" action="/Learner/DoLogin">
+
+
+
+                <div class="form-group">
+                    <div class="form-group">
+
+                        <div class="col-sm-4" style="color:#ff0000; text-align:center;">
+                            @ViewBag.Error
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="sizing-addon3">Username</span>
+                        <input type="text" name="txtUsername" id="txtUsername" class="form-control col-xs-2" aria-describedby="sizing-addon3" style="width:200px;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="sizing-addon3">Password</span>
+                        <input type="password" name="txtPassword" id="txtPassword" class="form-control col-xs-2" aria-describedby="sizing-addon3" style="width:200px;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group input-group">
+                        <input type="submit" style="margin:3px;" name="btnsubmit" class="btn btn-primary" value="Login" />
+                        <input type="button" name="btnHome" style="margin:3px;" class="btn btn-primary" value="Reset Password" onclick="location.href='@Url.Action("Reset", "Reset")'" />
+                        <input type="button" name="btnHome" style="margin:3px;" class="btn btn-primary" value="Home" onclick="location.href='@Url.Action("Index", "Home")'" />
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</body>
+</html>
+

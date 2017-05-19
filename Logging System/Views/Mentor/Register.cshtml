@@ -1,0 +1,173 @@
+﻿@model Logging_System.Models.Learners
+
+@{
+    Layout = "~/Views/Shared/MasterPage.cshtml";
+    var genders = new SelectList(new string[] { "Male", "Female" });
+    var active = new SelectList(new string[] { "True", "False" });
+    var learnerships = new SelectList(new string[] { "NC:Systems Development", "FET:Systems Development", "Business Analysis", "Software Testing" });
+}
+<html !DOCTYPE>
+<head>
+    <title>Register Learner</title>
+    <link href="~/Css/Learner.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Javascript/Upload.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+
+</head>
+<body>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#DOB").datepicker();
+        });
+    </script>  <br /><br />
+
+
+
+
+
+
+    @using (Html.BeginForm())
+            {
+        @Html.AntiForgeryToken()
+
+
+
+
+        <div class="form-horizontal">
+
+            <hr />
+
+
+            @Html.ValidationSummary(true)
+
+
+            <div class="container">
+                <div class="heading">
+                    <h4>Register New Learner</h4>
+                </div>
+                <br />
+            </div>
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.LearnerID, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(model => model.LearnerID, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.LearnerID)
+                </div>
+            </div>*@
+          
+            <div class="form-group">
+                @Html.LabelFor(model => model.Names, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(model => model.Names, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Names)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(model => model.Surname, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Surname)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-2">
+                    @Html.DropDownListFor(model => model.Gender, genders, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Gender)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <!--I am here-->
+                @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(model => model.DOB, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.DOB)
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.RSAID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(model => model.RSAID, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RSAID)
+                </div>
+            </div>*@
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Learnership, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-2">
+                    @Html.DropDownListFor(model => model.Learnership, learnerships, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Learnership)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Mobile)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Username)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsUserActive, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-2">
+                    @Html.DropDownListFor(model => model.IsUserActive, active, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.IsUserActive)
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Submit" name="submit" class="btn btn-primary" />
+                    <input type="button" name="submit" class="btn btn-warning" value="Logout" onclick="location.href='@Url.Action("Logout", "Learner")'" />
+                    <input type="button" name="submit" class="btn btn-primary" value="Back" onclick="location.href='@Url.Action("Sign", "Sign")'" />
+                    <input type="button" name="submit" class="btn btn-primary" value="Home" onclick="location.href='@Url.Action("Index", "Home")'" />
+                </div>
+            </div>
+
+
+
+        </div>
+    }
+    @{
+        if (ViewData["result"] != "" && ViewData["result"] != null)
+        {
+            ViewData["result"] = null;
+            <script type="text/javascript" language="javascript">
+                alert("Successfully Registered Learner");
+            </script>
+        }
+    }
+
+</body>
+</html>

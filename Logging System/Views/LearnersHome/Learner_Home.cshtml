@@ -1,0 +1,144 @@
+﻿@model Logging_System.Models.Email
+
+@{
+    var email = new SelectList(new string[] { "Log System Support", "Mthunzi Huna", "Prudence Mabitsela", "Mojalefa Tsao" });
+    var reason = new SelectList(new string[] { "Login related", "Logbooks related","Monthly EF related", "Password related", "Uploading POA related", "Other" });
+    Random random = new Random();
+    int ticket = random.Next(1234568);
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Learners Home</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/Css/Learner.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Javascript/Upload.js"></script>
+</head>
+<body>
+
+
+    <div class="container">
+
+    <br /><br />
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="text-align:center;">Learners Portal</h3>
+            </div>
+            <div class="panel-body" style="text-align:left;">
+
+
+                <div class="logged">
+                    @if (Session["Names"] != null || Session["Surname"] != null)
+            {
+                        <text>
+                            Learner: @Session["Names"].ToString()  @Session["Surname"].ToString()
+                        </text>
+                    }
+                </div>
+
+            </div>
+        </div>
+        <h3 class="panel-title" style="text-align:left; color:#fdbb30; font-weight:bold;">Suggestion | Complain | Comments | Report</h3>
+        <div class="panel-body">
+
+            <div class="form-horizontal">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.ValidationSummary()
+
+                  
+                        <fieldset>
+                            <text style="color:#2b398b;">@ViewBag.Message</text>
+                            <div class="form-group ">
+
+                                @Html.LabelFor(model => model.Sendto, new { @class = "col-sm-2" })
+
+                                <div class="col-sm-3">
+                                    @Html.DropDownListFor(model => model.Sendto, email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Sendto)
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Subject, new { @class = "col-sm-2" })
+                                <div class="col-sm-3">
+                                    @Html.DropDownListFor(model => model.Subject,reason, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Subject)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Ticket, new { @class = "col-sm-2" })
+                                <div class="col-sm-3">
+                                    @Html.TextBoxFor(model => model.Ticket, new { @class = "form-control", @Value = "#" + ticket })
+                                    @Html.ValidationMessageFor(model => model.Ticket)
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Message, new { @class = "col-sm-2" })
+                                <div class="col-sm-3">
+                                    @Html.TextAreaFor(model => model.Message, new { @class = "form-control", @placeholder = "Please quote your First Name & Last Name in your query" })
+                                    @Html.ValidationMessageFor(model => model.Message)
+                                    <input type="submit" name="submit" class="btn btn-primary" value="Send" style="margin: 3px;" />
+                                    <input type="reset" name="submit" class="btn btn-primary" value="Reset" style="margin: 3px;" />
+                                </div>
+
+                                @*<input type="submit" name="submit" class="btn btn-primary" value="Send" />*@
+                            </div>
+
+
+                        </fieldset>
+                }
+            </div>
+        </div>
+
+        @using (Html.BeginForm("Process", "LearnersHome", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+            <div style="color:rgba(255, 0, 0, 0.88);">
+
+                @ViewBag.Error
+            </div>
+
+
+                <div class="form-group">
+                    <text>Only PDF and Docx are accepted</text><br />
+                    <text>Only files that are 1MB or less are accepted</text>
+                    <h2>Upload Proof Of Absence</h2>
+                    <input type="file" id="file" class="btn btn-primary" name="photo" value="Browse File" />
+                   
+
+                    <input type="submit" class="btn btn-primary" name="Upload" value="Upload" style="margin:3px" />
+
+
+                </div>
+        }
+
+        <div class="form-group">
+
+
+            <input type="button" name="submit" class="btn btn-primary" value="Logbook" onclick="location.href='@Url.Action("SignLogBook", "Logbook")'" />
+            <input type="button" name="submit" class="btn btn-primary" value="Monthly Evaluation Form" onclick="location.href='@Url.Action("CompleteMonthlyEvaluationForm", "MonthlyEvaluationForm")'" />
+            <input type="button" name="submit" class="btn btn-primary" value="Change Password" onclick="location.href='@Url.Action("ChangePassword", "ChangePassword")'" />
+            <input type="button" name="submit" class="btn btn-warning"  style="margin:3px;" value="Logout" onclick="location.href='@Url.Action("Logout", "Learner")'" />
+            <input type="button" name="submit" class="btn btn-primary" value="Home"  style="margin:3px;" onclick="location.href='@Url.Action("Index", "Home")'" />
+
+        </div>
+      
+
+    </div>
+
+
+
+</body>
+</html>

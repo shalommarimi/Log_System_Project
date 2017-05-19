@@ -1,0 +1,509 @@
+﻿@model Logging_System.Models.Logbook
+
+@{
+    Layout = "~/Views/Shared/MasterPage.cshtml";
+}
+
+@{
+
+    var Hours = new SelectList(new string[] { "8 Hours", "Absent", "1 Hour", "2 Hours", "3 Hours", " 4 Hours", "5 Hours", "6 Hours", "7 Hours" });
+    var Preview = new SelectList(new string[] { "Yes", "No" });
+    var Completed = new SelectList(new string[] { "Yes", "No" });
+    var Company = new SelectList(new string[] { "Dynamic DNA", "Dynamic Visual Technologies", "Blue Pencil", "CloudSmiths", "Indigo Cube" });
+    var mentors = new SelectList(new string[] { "Prudence Mabitsela & Mthunzi Huna", "Prudence Mabitsela", "Mojalifa Tsao", "Mthunzi Huna" });
+    var Learnership = new SelectList(new string[] { "NQF L5 Systems Development", "NQF L4 Systems Development", "Business Analysis", "Software Testing(SQA)" });
+    var Font = new SelectList(new string[] { "Arial", "Informal Roman", "Bradley Hand ITC", "Blackadder ITC", "Brush Script MT Italic", "Edwardian Script ITC", "Mistral", "Place Script MT", "Chiller", "Curlz MT", "French Script MT", "Rage Italic", });
+
+
+    DateTime dt = DateTime.Now;
+    string date = dt.ToLongDateString();
+
+
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weekly Logbook</title>
+    <link href="~/Css/Learner.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Javascript/Upload.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+    @*<script type="text/javascript">alert("NOTE:It is of utmost importance that you enter the correct dates as per day from Monday - Friday, Failuer to do so will result in a request for a re-submission of your Weekly Logbook")</script>*@
+</head>
+
+<body>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#Day01,#Day02,#Day03,#Day04,#Day05,#DateLearnerSigned,#DateMentorSigned").datepicker();
+        });
+    </script>
+
+
+    @using (Html.BeginForm())
+    {
+
+        <div class="container">
+            <br /><br />
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="text-align:left;">NB: For Learners Weekly, Please refer to Workplace Task Maping for a breakdown of prescribed activities.</h3>
+                </div>
+                <div class="panel-body" style="text-align:left;">
+
+
+                    <div class="logged">
+                        @if (Session["Names"] != null || Session["Surname"] != null)
+                        {
+                            <text>
+                                Learner: @Session["Names"].ToString()  @Session["Surname"].ToString()
+                            </text>
+
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="form-horizontal">
+
+
+
+            @Html.AntiForgeryToken()
+            <div class="col-sm-3">
+                @Html.ValidationSummary(true)
+            </div>
+
+            <br /><br /><br />
+            <br /><br />
+
+
+            <div class="form-group">
+
+                @Html.LabelFor(model => model.LearnerName, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.LearnerName, new { @class = "form-control", @Value = @Session["Names"].ToString() + " " + @Session["Surname"].ToString() })
+
+                    @Html.ValidationMessageFor(model => model.LearnerName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MentorName, htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.MentorName, mentors, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MentorName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MentorTel, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.MentorTel, new { @class = "form-control", @Value = "+27 (11) 759 5930" })
+                    @Html.ValidationMessageFor(model => model.MentorTel)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Learnership, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.Learnership, Learnership, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Learnership)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.CompanyName, Company, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CompanyName)
+                </div>
+            </div>
+
+
+            <br /><br /><br />
+
+            <div class="headings">
+                <h4>Monday:</h4>
+            </div>
+            <br /><br /><br />
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Day01, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.Day01, new { @class = "form-control", @Value = @ViewBag.Mondays })
+                    @Html.ValidationMessageFor(model => model.Day01)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TaskDay01, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.TaskDay01, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TaskDay01)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CompletedSatDay01, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.CompletedSatDay01, Completed, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CompletedSatDay01)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TimeTakenDay01, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.TimeTakenDay01, Hours, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TimeTakenDay01)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProblemsDay01, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.ProblemsDay01, new { @class = "form-control", placeholder = "Optional" })
+                    @Html.ValidationMessageFor(model => model.ProblemsDay01)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CommentsDay01, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.CommentsDay01, new { @class = "form-control", placeholder = "Optional" })
+                    @Html.ValidationMessageFor(model => model.CommentsDay01)
+                </div>
+            </div>
+
+
+
+            <br /><br /><br />
+
+            <div class="headings">
+                <h4>Tuesday:</h4>
+            </div>
+            <br /><br /><br />
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Day02, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.Day02, new { @class = "form-control", @Value = @ViewBag.Tuesdays })
+                    @Html.ValidationMessageFor(model => model.Day02)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TaskDay02, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.TaskDay02, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TaskDay02)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CompletedSatDay02, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.CompletedSatDay02, Completed, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CompletedSatDay02)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TimeTakenDay02, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.TimeTakenDay02, Hours, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TimeTakenDay02)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProblemsDay02, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.ProblemsDay02, new { @class = "form-control", placeholder = "Optional" })
+                    @Html.ValidationMessageFor(model => model.ProblemsDay02)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CommentsDay02, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.CommentsDay02, new { @class = "form-control", placeholder = "Optional" })
+                    @Html.ValidationMessageFor(model => model.CommentsDay02)
+                </div>
+            </div>
+
+            <br /><br /><br />
+
+            <div class="headings">
+                <h4>Wednesday:</h4>
+            </div>
+            <br /><br /><br />
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Day03, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.Day03, new { @class = "form-control", @Value = @ViewBag.Wednesdays })
+                    @Html.ValidationMessageFor(model => model.Day03)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TaskDay03, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.TaskDay03, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TaskDay03)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CompletedSatDay03, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.CompletedSatDay03, Completed, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CompletedSatDay03)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TimeTakenDay03, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.TimeTakenDay03, Hours, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TimeTakenDay03)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProblemsDay03, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.ProblemsDay03, new { @class = "form-control", placeholder = "Optional" })
+                    @Html.ValidationMessageFor(model => model.ProblemsDay03)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CommentsDay03, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.CommentsDay03, new { @class = "form-control", placeholder = "Optional" })
+                    @Html.ValidationMessageFor(model => model.CommentsDay03)
+                </div>
+            </div>
+
+
+            <br /><br /><br />
+
+            <div class="headings">
+                <h4>Thursday:</h4>
+            </div>
+            <br /><br /><br />
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Day04, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.Day04, new { @class = "form-control", @Value = @ViewBag.Thursdays })
+                    @Html.ValidationMessageFor(model => model.Day04)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TaskDay04, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.TaskDay04, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TaskDay04)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CompletedSatDay04, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.CompletedSatDay04, Completed, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CompletedSatDay04)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TimeTakenDay04, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.TimeTakenDay04, Hours, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TimeTakenDay04)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProblemsDay04, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.ProblemsDay04, new { @class = "form-control", placeholder = "Optional" })
+                    @Html.ValidationMessageFor(model => model.ProblemsDay04)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CommentsDay04, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.CommentsDay04, new { @class = "form-control", placeholder = "Optional" })
+                    @Html.ValidationMessageFor(model => model.CommentsDay04)
+                </div>
+            </div>
+
+
+
+
+            <br /><br /><br />
+
+            <div class="headings">
+                <h4>Friday:</h4>
+            </div>
+            <br /><br /><br />
+
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Day05, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.Day05, new { @class = "form-control", @Value = @ViewBag.Fridays })
+                    @Html.ValidationMessageFor(model => model.Day05)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TaskDay05, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.TaskDay05, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TaskDay05)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CompletedSatDay05, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.CompletedSatDay05, Completed, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CompletedSatDay05)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TimeTakenDay05, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.TimeTakenDay05, Hours, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TimeTakenDay05)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProblemsDay05, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.ProblemsDay05, new { @class = "form-control", placeholder = "Optional" })
+                    @Html.ValidationMessageFor(model => model.ProblemsDay05)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CommentsDay05, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.CommentsDay05, new { @class = "form-control", placeholder = "Optional" })
+                    @Html.ValidationMessageFor(model => model.CommentsDay05)
+                </div>
+            </div>
+
+
+            <br /><br /><br />
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LearnerSignature, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.LearnerSignature, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.LearnerSignature)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.fontStyle, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.fontStyle, Font, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.fontStyle)
+                </div>
+                <button class="btn sign_in" data-toggle="collapse" data-target="#demos" id="btnSignIn" type="button" style="background-color:#fdbb30">
+
+                    <span class="glyphicon glyphicon-log-in"></span>
+                    Previw Fontstyles
+                </button>
+
+                <div id="demos" class="collapse col-xs-2">
+                    <br /><ul>
+
+                              <li><a href="https://www.myfonts.com/fonts/microsoft/arial/arial/" target="_blank"> <text style="font-family:Arial; font-size:larger;">Arial</text></a></li>
+                              <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=988" target="_blank"><text style="font-family:'Informal Roman';font-size:larger;">Informal Roman</text> </a></li>
+                              <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=927" target="_blank"> <text style="font-family:'Bradley Hand ITC'; font-size:larger;">Bradley Hand ITC</text></a></li>
+                              <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=989" target="_blank"> <text style="font-family:'Blackadder ITC'; font-size:larger;">Blackadder ITC</text></a></li>
+                              <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=930" target="_blank"><text style="font-family:'Brush Script MT'; font-size:larger;"> Brush Script MT Italic</text></a></li>
+                              <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=990" target="_blank"><text style="font-family:'Edwardian Script ITC'; font-size:larger;"> Edwardian Script ITC</text></a></li>
+                              <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=1007" target="_blank"><text style="font-family:Mistral; font-size:larger;"> Mistral</text></a></li>
+                              <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=1029" target="_blank"> <text style="font-family:'Palace Script MT'; font-size:larger;">Palace Script MT</text></a></li>
+                              <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=936" target="_blank"><text style="font-family:Chiller; font-size:larger;"> Chiller</text></a></li>
+                              <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=940 " target="_blank"> <text style="font-family:'Curlz MT'; font-size:larger;">Curlz MT</text></a></li>
+                              <li><a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=966" target="_blank"> <text style="font-family:'French Script MT'; font-size:larger;">French Script MT</text></a></li>
+                              <li>
+                                  <a href="https://www.microsoft.com/typography/fonts/font.aspx?FMID=1023" target="_blank"><text style="font-family:Rage; font-size:larger;"> Rage Italic</text></a>
+                              </li>
+                    </ul>
+
+
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DateLearnerSigned, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.DateLearnerSigned, new { @class = "form-control", @Value = date, @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.DateLearnerSigned)
+                </div>
+            </div>
+            <br /><br /><br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Preview, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-xs-2">
+                    @Html.DropDownListFor(model => model.Preview, Preview, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Preview)
+                </div>
+            </div>
+
+
+            <br /><br /><br />
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Submit Logbook" class="btn btn-primary" />
+                    <input type="button" name="btnHome" class="btn btn-primary" style="margin:3px;" value="Back" onclick="location.href='@Url.Action("Learner_Home", "LearnersHome")'" />
+                    <input type="button" name="btnHome" class="btn btn-primary" style="margin:3px;" value="Home" onclick="location.href='@Url.Action("Index", "Home")'" />
+                    <input type="button" name="submit" class="btn btn-warning" style="margin:3px;" value="Logout" onclick="location.href='@Url.Action("Logout", "LearnersHome")'" />
+                </div>
+            </div>
+        </div>
+    }
+    @{
+        if (ViewData["result"] != "" && ViewData["result"] != null)
+        {
+            ViewData["result"] = null;
+            <script type="text/javascript" language="javascript">
+                alert("Successfully Submitted Your Weekly Logbook");
+            </script>
+        }
+    }
+</body>
+</html>

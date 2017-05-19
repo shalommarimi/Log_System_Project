@@ -1,0 +1,9 @@
+﻿body {
+}
+.Wrapper {
+    margin: 0 auto;
+    width:960px;
+}
+.form-validation-error {
+    color:red;
+}

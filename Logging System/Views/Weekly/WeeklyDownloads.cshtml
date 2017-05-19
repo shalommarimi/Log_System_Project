@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Weekly Downloads";
+
+}
+
+
+@{Uri uri = Request.Url;}
+<!Doctype html>
+<html>
+
+
+<head>
+    <title>Download</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+    <link href="~/Css/General.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="Wrapper">
+        <br />
+        <br /><br />
+      
+        <br />
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="text-align:center;color:#ffffff;">Learners Weekly Logbooks</h3>
+            </div>
+            <div class="panel-body" style="text-align:left;">
+                <div class="container-downloads">
+
+                    @*Show the current directory name using page URL. *@
+                    <h2>@Server.UrlDecode(uri.Segments.Last())</h2>
+
+                    @*If we were in root folder then don't show the up one level image. *@
+                    @if (uri.AbsolutePath.ToLower() != "/explorer/")
+                    {
+                        @*Making a URL to going up one level. *@
+                        <a title="Parent"
+                           href="@uri.AbsoluteUri.Remove(uri.AbsoluteUri.Length - uri.Segments.Last().Length)">
+                            <img src="/Content/up.png" alt="Up" style="width: 20px; height: 20px; border: none" />
+                        </a>
+                    }
+                    <ul>
+                        @*Listing the directories *@
+                        @foreach (Logging_System.Models.DirModel dir in Model.dirModelList)
+                        {
+                            <li>
+                                <img src="/Content/folder.png" alt="Folder Logo" align="top" style="width: 20px;
+                                   height: 20px; border: none" />
+                                <a href="@dir.DirName/" title="@dir.DirName">@dir.DirName</a>
+                                . . . . . . @dir.DirAccessed
+                            </li>
+
+
+                        }
+
+
+                        @*Listing the files *@
+                        @foreach (Logging_System.Models.FileModel file in Model.fileModelList)
+                        {
+
+                          
+                            <li>
+                             
+                                                                <a href="http://learnerslogsystem.azurewebsites.net/WeeklyLogbooks/@uri.AbsolutePath.Substring(8,10)/@file.FileName" target="_blank">@file.FileName</a>
+                                . . . . . . @file.FileSizeText
+                                . . . . . . @file.FileAccessed
+                            </li>
+
+                        }
+
+                    </ul>
+
+                                        
+                </div>
+
+
+            </div>
+        </div>
+        <div class="buttons">
+
+
+            <input type="button" name="submit" class="btn btn-warning" value="Logout" onclick="location.href='@Url.Action("Logout", "Mentor")'" />
+            <input type="button" name="submit" class="btn btn-primary" value="Back" onclick="location.href='@Url.Action("Sign", "Sign")'" />
+            <input type="button" name="submit" class="btn btn-primary" value="Monthly Evaluation Form" onclick="location.href='@Url.Action("MonthlyDownloads", "Monthly")'" />
+            
+        </div>
+    </div>
+
+</body>
+</html>

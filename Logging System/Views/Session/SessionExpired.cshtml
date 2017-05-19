@@ -1,0 +1,45 @@
+﻿
+@{
+    Layout = String.Empty;
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Session Expired</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+    <link href="~/Css/Home.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <header>
+
+        <div class="logo text-center">
+            <img src="~/Images/Dynamic.png" />
+        </div>
+        <br /><br />
+
+
+    </header>
+    <div class="user-session text-center">
+        <h2>Due to inactivity. Your Session Has Expired!</h2>
+    </div>
+    <div class="container" style="padding-top:100px;padding-bottom:50px;">
+        <div class="form-signin">
+            <button class="btn sign_in" id="btnSignIn" type="button" style="color:#ffffff;font-size:20px; margin:5px;" onclick="location.href='@Url.Action("Index", "Home")'">
+
+                <span class="glyphicon glyphicon-refresh" style="font-size:25px;padding-right:10px;color:#f39c12"></span>
+                Home
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>
+

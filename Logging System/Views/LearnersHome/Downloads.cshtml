@@ -1,0 +1,66 @@
+﻿@{
+    //ViewBag.Title = "Downloads";
+    Layout = "~/Views/Shared/MasterPage.cshtml";
+}
+
+
+<!Doctype html>
+<html>
+
+
+<head>
+    <title>Download</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+    <link href="~/Css/General.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="Wrapper">
+        @model List<string>
+            <br />
+        <br /><br />
+        <h4>Learners Absenteeism Proof Download </h4>
+        <br />
+
+        <div class="container-downloads">
+            <table  border="1"; style="border-color:#f39c12; border-style:double;">
+                <tr>
+                    <th style="color:#2b398b;">File Name</th>
+                    <th style="color:#2b398b;">Download</th>
+                </tr>
+                @for (var i = 0; i <= Model.Count - 1; i++)
+            {
+                    <tr>
+                        <td>@Model[i].ToString() </td>
+                        <td>@Html.ActionLink("Download", "Download", new { ImageName = @Model[i].ToString() }) </td>
+                    </tr>
+                }
+
+
+            </table>
+            <div class="buttons">
+
+
+                <input type="button" name="submit" class="btn btn-warning" value="Logout" onclick="location.href='@Url.Action("Logout", "Mentor")'" />
+                <input type="button" name="submit" class="btn btn-primary" value="Back" onclick="location.href='@Url.Action("Sign", "Sign")'" />
+                <input type="button" name="submit" class="btn btn-primary" value="Home" onclick="location.href='@Url.Action("Index", "Home")'" />
+            </div>
+           
+        </div>
+
+       
+        </div>
+   
+
+
+</body>
+</html>
+

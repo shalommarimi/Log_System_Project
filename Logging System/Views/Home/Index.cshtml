@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Dynamic DNA Log System</title>
+    <link rel="stylesheet" type="text/css" href="~/Css/Home.css" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/Images/favicon.ico" type="image/x-icon" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <link href="~/Css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Css/font-awesome.min.css" rel="stylesheet" />
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <script src="~/Javascript/hodeloader.js"></script>
+    @{
+        Layout = String.Empty;
+    }
+    
+</head>
+<body  onload="hideloader()">
+   
+    <header>
+
+        <div class="logo text-center">
+            <img src="~/Images/Dynamic.png" />
+           
+        </div>
+    </header>
+
+    <div class="container" style="padding-top:100px;padding-bottom:50px;">
+        <div class="form-signin">
+
+
+            <div class="logo"></div>
+
+            <button class="btn sign_in" id="btnSignIn" type="button" style="color:#ffffff;font-size:20px; margin:5px;" onclick="location.href='@Url.Action("Login", "Administrator")'">
+
+                <span class="glyphicon glyphicon-education" style="font-size:25px;padding-right:10px;color:#f39c12"></span>
+                Administration
+            </button>
+
+            <button class="btn sign_in" id="btnSignIn" type="button" style="color:#ffffff;font-size:20px; margin:5px;" onclick="location.href='@Url.Action("Login", "Learner")'">
+
+                <span class="glyphicon glyphicon-log-in" style="font-size:25px;padding-right:10px;color:#ffffff"></span>
+                Learners Login
+            </button>
+
+            <button class="btn sign_in" id="btnSignIn" type="button" style="color:#ffffff;font-size:20px; background-color:#f39c12; margin:5px;" onclick="location.href='@Url.Action("Login", "Mentor")'">
+                <span class="glyphicon glyphicon-log-in" style="font-size:25px;padding-right:10px;color:#ffffff"></span>
+                Mentors Login
+            </button>
+
+            <div id="loading"></div>
+            <div class="navbar-text pull-right" >
+                <a href="http://www.facebook.com" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>
+                <a href="http://www.twitter.com"target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
+                <a href="http://www.linkedin.com"target="_blank"><i class="fa fa-linkedin-square fa-2x"></i></a>
+                <a href="http://www.instagram.com"target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
+             
+            </div>
+
+
+
+        </div>
+    </div>
+    
+</body>
+</html>
